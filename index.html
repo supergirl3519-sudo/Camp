@@ -1,758 +1,824 @@
-<!DOCTYPE html>
+html_content = """<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Квест «Лагерь Хорьки» — Операция Усатый Шпион</title>
+    <title>Экологически безопасные продукты — интерактивная памятка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Shantell+Sans:wght@400;700;800&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        :root {
-            --ferret-orange: #ff8c42;
-            --ferret-brown: #8b5a2b;
-            --grass-green: #7cb342;
-            --sky-blue: #4fc3f7;
-            --sun-yellow: #ffd54f;
-        }
-        
+
         body {
-            font-family: 'Shantell Sans', cursive;
-            background: linear-gradient(180deg, #87CEEB 0%, #e8f5e9 40%, #a5d6a7 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        .screen {
+            font-family: 'Nunito', sans-serif;
+            background-color: #E8F5E9;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 30px;
-            position: relative;
+            padding: 20px;
         }
-        
-        .hidden {
-            display: none !important;
-        }
-        
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 30px;
-            padding: 40px;
+
+        .container {
             max-width: 800px;
             width: 100%;
-            box-shadow: 
-                0 20px 60px rgba(0,0,0,0.15),
-                0 0 0 6px var(--ferret-orange),
-                0 0 0 12px var(--sun-yellow);
-            text-align: center;
-            position: relative;
-            animation: bounceIn 0.8s ease;
-        }
-        
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        .ferret-emoji {
-            font-size: 5em;
-            animation: wiggle 2s infinite;
-            display: inline-block;
-        }
-        
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(-10deg); }
-            50% { transform: rotate(10deg); }
-        }
-        
-        h1 {
-            font-size: 2.8em;
-            color: var(--ferret-brown);
-            margin: 20px 0;
-            text-shadow: 3px 3px 0 var(--sun-yellow);
-        }
-        
-        h2 {
-            font-size: 2em;
-            color: var(--ferret-orange);
-            margin-bottom: 20px;
-        }
-        
-        .story-text {
-            font-size: 1.3em;
-            line-height: 1.8;
-            color: #5d4037;
-            margin: 20px 0;
-            text-align: left;
-        }
-        
-        .story-text .highlight {
-            background: linear-gradient(120deg, var(--sun-yellow) 0%, var(--sun-yellow) 100%);
-            background-repeat: no-repeat;
-            background-size: 100% 40%;
-            background-position: 0 88%;
-            font-weight: 700;
-        }
-        
-        .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--ferret-orange), #ff6f00);
-            color: white;
-            border: none;
-            padding: 18px 40px;
-            font-size: 1.3em;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 700;
-            margin: 10px;
-            transition: all 0.3s;
-            box-shadow: 0 8px 20px rgba(255, 140, 66, 0.4);
-            text-decoration: none;
-        }
-        
-        .btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(255, 140, 66, 0.6);
-        }
-        
-        .btn.green {
-            background: linear-gradient(135deg, var(--grass-green), #558b2f);
-            box-shadow: 0 8px 20px rgba(124, 179, 66, 0.4);
-        }
-        
-        .btn.blue {
-            background: linear-gradient(135deg, var(--sky-blue), #0288d1);
-            box-shadow: 0 8px 20px rgba(79, 195, 247, 0.4);
-        }
-        
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .task-box {
-            background: linear-gradient(135deg, #fff8e1, #ffecb3);
-            border-radius: 20px;
-            padding: 25px;
-            margin: 20px 0;
-            border: 3px dashed var(--ferret-orange);
-            text-align: left;
-        }
-        
-        .task-number {
-            display: inline-flex;
-            width: 40px;
-            height: 40px;
-            background: var(--ferret-orange);
-            color: white;
-            border-radius: 50%;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.2em;
-            margin-right: 10px;
-        }
-        
-        .code-input {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin: 30px 0;
-        }
-        
-        .code-input input {
-            width: 60px;
-            height: 70px;
-            font-size: 2em;
-            text-align: center;
-            border: 3px solid var(--ferret-orange);
-            border-radius: 15px;
-            font-family: inherit;
-            font-weight: 800;
-            color: var(--ferret-brown);
             background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
         }
-        
-        .code-input input:focus {
-            outline: none;
-            border-color: var(--grass-green);
-            transform: scale(1.1);
-        }
-        
-        .progress-track {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-        
-        .stage-dot {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-            transition: all 0.5s;
+
+        .header {
+            background-color: #43A047;
+            padding: 40px 30px;
+            text-align: center;
             position: relative;
+            overflow: hidden;
         }
-        
-        .stage-dot.completed {
-            background: var(--grass-green);
-            animation: pop 0.5s;
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
         }
-        
-        .stage-dot.current {
-            background: var(--ferret-orange);
-            box-shadow: 0 0 20px var(--ferret-orange);
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pop {
-            0% { transform: scale(0); }
-            80% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        
+
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
-        
-        .timer {
-            font-size: 3em;
-            font-weight: 800;
-            color: var(--ferret-orange);
-            font-family: 'Courier New', monospace;
-            background: white;
-            padding: 15px 30px;
-            border-radius: 20px;
-            display: inline-block;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+        .header h1 {
+            color: white;
+            font-size: 1.9em;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
         }
-        
-        .clue-box {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            border-left: 6px solid var(--sky-blue);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 15px 15px 0;
-            text-align: left;
+
+        .header .subtitle {
+            color: #C8E6C9;
             font-size: 1.1em;
+            margin-top: 10px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
         }
-        
-        .team-score {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
+
+        .nav-tabs {
+            display: flex;
+            overflow-x: auto;
+            background-color: #F1F8E9;
+            padding: 12px 15px;
+            gap: 8px;
+            scrollbar-width: none;
         }
-        
-        .team-card {
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-tab {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 20px;
             background: white;
-            border-radius: 15px;
-            padding: 20px;
-            border: 3px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .team-card.leading {
-            border-color: var(--sun-yellow);
-            background: #fffde7;
-            transform: scale(1.05);
-        }
-        
-        .team-name {
-            font-size: 1.2em;
+            color: #555;
+            font-family: 'Nunito', sans-serif;
             font-weight: 700;
-            color: var(--ferret-brown);
-        }
-        
-        .team-points {
-            font-size: 2em;
-            color: var(--ferret-orange);
-            font-weight: 800;
-        }
-        
-        .riddle-options {
-            display: grid;
-            gap: 15px;
-            margin: 25px 0;
-        }
-        
-        .riddle-option {
-            background: white;
-            border: 3px solid #e0e0e0;
-            border-radius: 15px;
-            padding: 20px;
+            font-size: 0.9em;
             cursor: pointer;
-            transition: all 0.3s;
-            text-align: left;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .nav-tab:hover {
+            background-color: #C8E6C9;
+            color: #1B5E20;
+        }
+
+        .nav-tab.active {
+            background-color: #43A047;
+            color: white;
+            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.3);
+        }
+
+        .content-area {
+            padding: 30px;
+            min-height: 400px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #2E7D32;
+            font-weight: 900;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card {
+            background-color: #F1F8E9;
+            border-left: 5px solid #43A047;
+            padding: 20px;
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            background: white;
+            border: 2px solid #E0E0E0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .checklist li:hover {
+            border-color: #43A047;
+            background-color: #F1F8E9;
+            transform: translateX(5px);
+        }
+
+        .checklist li.checked {
+            border-color: #43A047;
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .checklist li.checked .check-circle {
+            background-color: #43A047;
+            border-color: #43A047;
+        }
+
+        .checklist li.checked .check-circle::after {
+            content: '✓';
+            color: white;
+            font-weight: 900;
+        }
+
+        .check-circle {
+            width: 28px;
+            height: 28px;
+            border: 3px solid #BDBDBD;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .warning-card {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+            padding: 20px;
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 15px;
+        }
+
+        .warning-card .card-title {
+            color: #E65100;
+            font-weight: 800;
             font-size: 1.1em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .riddle-option:hover {
-            border-color: var(--ferret-orange);
-            transform: translateX(10px);
-            background: #fff3e0;
+
+        .warning-card p {
+            color: #5D4037;
+            line-height: 1.6;
         }
-        
-        .riddle-option.correct {
-            border-color: var(--grass-green);
-            background: #e8f5e9;
-            animation: correctPop 0.5s;
+
+        .good-card {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+            padding: 20px;
+            border-radius: 0 16px 16px 0;
+            margin-bottom: 15px;
         }
-        
-        .riddle-option.wrong {
-            border-color: #ef5350;
-            background: #ffebee;
-            animation: shake 0.5s;
+
+        .good-card .card-title {
+            color: #2E7D32;
+            font-weight: 800;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        @keyframes correctPop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+
+        .good-card p {
+            color: #33691E;
+            line-height: 1.6;
         }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
         }
-        
-        .confetti {
-            position: fixed;
+
+        .tip-card {
+            background: white;
+            border: 2px solid #C8E6C9;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tip-card:hover {
+            border-color: #43A047;
+            box-shadow: 0 8px 20px rgba(67, 160, 71, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .tip-card .tip-icon {
             font-size: 2em;
-            animation: confettiFall 3s linear forwards;
-            z-index: 9999;
-            pointer-events: none;
+            margin-bottom: 10px;
         }
-        
-        @keyframes confettiFall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+
+        .tip-card .tip-title {
+            font-weight: 800;
+            color: #2E7D32;
+            margin-bottom: 8px;
+            font-size: 1.05em;
         }
-        
-        .photo-task {
-            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-            border-radius: 20px;
+
+        .tip-card .tip-text {
+            color: #555;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .conclusion-box {
+            background-color: #2E7D32;
+            color: white;
             padding: 25px;
-            margin: 20px 0;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .conclusion-box h3 {
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            font-weight: 900;
+        }
+
+        .conclusion-box p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        .interactive-quiz {
+            margin-top: 20px;
+        }
+
+        .quiz-question {
+            background: #F1F8E9;
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #2E7D32;
+            font-size: 1.05em;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 14px 18px;
+            border: 2px solid #E0E0E0;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1em;
+            font-weight: 600;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #43A047;
+            background-color: #F1F8E9;
+        }
+
+        .quiz-option.correct {
+            border-color: #4CAF50;
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .quiz-option.wrong {
+            border-color: #F44336;
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+
+        .quiz-feedback {
+            margin-top: 12px;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct-msg {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .quiz-feedback.wrong-msg {
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+
+        .footer-info {
+            text-align: center;
+            padding: 20px;
+            background-color: #F5F5F5;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .highlight-box {
+            background-color: #FFFDE7;
+            border: 2px dashed #FBC02D;
+            padding: 18px;
+            border-radius: 14px;
+            margin: 15px 0;
             text-align: center;
         }
-        
-        .photo-task .emoji-big {
-            font-size: 4em;
-            margin: 15px 0;
+
+        .highlight-box .highlight-icon {
+            font-size: 2.5em;
+            margin-bottom: 8px;
         }
-        
-        .hidden-code {
-            font-family: 'Courier New', monospace;
-            background: #263238;
-            color: #69f0ae;
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 1.5em;
-            letter-spacing: 5px;
-            margin: 20px 0;
+
+        .highlight-box p {
+            color: #5D4037;
+            font-weight: 700;
+            font-size: 1.1em;
         }
-        
+
         @media (max-width: 600px) {
-            h1 { font-size: 2em; }
-            h2 { font-size: 1.5em; }
-            .card { padding: 25px; }
-            .code-input input { width: 45px; height: 55px; font-size: 1.5em; }
+            .header h1 { font-size: 1.4em; }
+            .tips-grid { grid-template-columns: 1fr; }
+            .nav-tab { font-size: 0.8em; padding: 8px 12px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- ЭКРАН 1: Начало -->
-    <div class="screen" id="screen-start">
-        <div class="card">
-            <div class="ferret-emoji">🦦</div>
-            <h1>Лагерь «Хорьки»</h1>
-            <h2>Операция «Усатый Шпион»</h2>
-            <div class="story-text">
-                <p>Привет, хорёк! 🌲</p>
-                <p>В лагере завелся <span class="highlight">таинственный Усатый Шпион</span>. Он спрятал вкусняшки для победителей, но оставил только загадки и шифры...</p>
-                <p>Твоя команда должна пройти <span class="highlight">5 испытаний</span>, разгадать коды и найти тайник!</p>
-                <p>У вас есть <span class="highlight">45 минут</span>. Готовы?</p>
-            </div>
-            <div class="btn-group">
-                <button class="btn" onclick="startQuest()">Вперёд! 🚀</button>
-            </div>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 Экологически безопасные продукты</h1>
+            <p class="subtitle">Интерактивная памятка для осознанного выбора</p>
         </div>
-    </div>
-
-    <!-- ЭКРАН 2: Выбор команды -->
-    <div class="screen hidden" id="screen-team">
-        <div class="card">
-            <h2>Выбери свою команду</h2>
-            <div class="story-text">
-                <p>В лагере 4 отряда хорьков. Какой ты?</p>
-            </div>
-            <div class="btn-group">
-                <button class="btn" onclick="selectTeam('Оранжевые')">🟠 Оранжевые</button>
-                <button class="btn green" onclick="selectTeam('Зелёные')">🟢 Зелёные</button>
-                <button class="btn blue" onclick="selectTeam('Синие')">🔵 Синие</button>
-                <button class="btn" style="background: linear-gradient(135deg, #ab47bc, #7b1fa2);" onclick="selectTeam('Фиолетовые')">🟣 Фиолетовые</button>
-            </div>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('what')">❓ Что это?</button>
+            <button class="nav-tab" onclick="showTab('why')">💡 Почему важно</button>
+            <button class="nav-tab" onclick="showTab('how')">👀 На что смотреть</button>
+            <button class="nav-tab" onclick="showTab('choose')">✅ Что выбирать</button>
+            <button class="nav-tab" onclick="showTab('avoid')">🚫 Чего избегать</button>
+            <button class="nav-tab" onclick="showTab('tips')">💚 Советы</button>
+            <button class="nav-tab" onclick="showTab('test')">🎯 Проверь себя</button>
         </div>
-    </div>
-
-    <!-- ЭКРАН 3: Игровое поле -->
-    <div class="screen hidden" id="screen-game">
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
-                <div>
-                    <span style="font-size: 1.2em;">Команда:</span>
-                    <span id="teamName" style="font-weight: 800; color: var(--ferret-orange); font-size: 1.3em;">—</span>
+        
+        <div class="content-area" id="contentArea">
+            
+            <!-- Что это? -->
+            <div class="tab-content active" id="tab-what">
+                <div class="section-title">🌱 Что такое экологически безопасные продукты?</div>
+                
+                <div class="info-card">
+                    <strong>Экологически безопасные продукты питания</strong> — это продукты, которые:
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Не содержат вредных химических веществ</li>
+                        <li>Произведены с соблюдением санитарных норм</li>
+                        <li>Не наносят вред здоровью человека</li>
+                    </ul>
                 </div>
-                <div class="timer" id="mainTimer">45:00</div>
+                
+                <div class="highlight-box">
+                    <div class="highlight-icon">🍎</div>
+                    <p>Эко-продукты = здоровье + забота о природе + качество!</p>
+                </div>
+                
+                <div class="info-card" style="border-left-color: #FF9800;">
+                    <strong>Запомни:</strong> экологически безопасный продукт — это не всегда дорогой продукт. Главное — внимательность при выборе!
+                </div>
             </div>
             
-            <div class="progress-track">
-                <div class="stage-dot current" id="dot-0">🌲</div>
-                <div class="stage-dot" id="dot-1">🧩</div>
-                <div class="stage-dot" id="dot-2">🏃</div>
-                <div class="stage-dot" id="dot-3">📸</div>
-                <div class="stage-dot" id="dot-4">🔐</div>
-                <div class="stage-dot" id="dot-5">🏆</div>
+            <!-- Почему важно -->
+            <div class="tab-content" id="tab-why">
+                <div class="section-title">💡 Почему это важно?</div>
+                
+                <div class="warning-card">
+                    <div class="card-title">⚠️ Продукты могут содержать вредные добавки</div>
+                    <p>Консерванты, красители, усилители вкуса — всё это может накапливаться в организме и вызывать проблемы со здоровьем.</p>
+                </div>
+                
+                <div class="warning-card">
+                    <div class="card-title">📉 Снижается качество питания</div>
+                    <p>Продукты с большим количеством химии содержат меньше полезных витаминов и микроэлементов.</p>
+                </div>
+                
+                <div class="warning-card">
+                    <div class="card-title">🏥 Возможен вред здоровью</div>
+                    <p>Аллергии, проблемы с пищеварением, снижение иммунитета — всё это может быть следствием неправильного питания.</p>
+                </div>
+                
+                <div class="good-card">
+                    <div class="card-title">✅ А если выбирать правильно?</div>
+                    <p>Больше энергии, крепкий иммунитет, хорошее настроение и уверенность в том, что ты ешь!</p>
+                </div>
             </div>
             
-            <div id="stage-content">
-                <!-- Сюда подгружаются задания -->
+            <!-- На что смотреть -->
+            <div class="tab-content" id="tab-how">
+                <div class="section-title">👀 На что обращать внимание при выборе?</div>
+                
+                <div class="tips-grid">
+                    <div class="tip-card" onclick="toggleCard(this)">
+                        <div class="tip-icon">📋</div>
+                        <div class="tip-title">Состав продукта</div>
+                        <div class="tip-text">
+                            • Чем меньше компонентов — тем лучше<br>
+                            • Избегай большого количества Е-добавок<br>
+                            • Если не можешь прочитать название — подумай, стоит ли покупать
+                        </div>
+                    </div>
+                    
+                    <div class="tip-card" onclick="toggleCard(this)">
+                        <div class="tip-icon">📅</div>
+                        <div class="tip-title">Срок годности</div>
+                        <div class="tip-text">
+                            • Слишком долгий срок = много консервантов<br>
+                            • Выбирай свежие продукты<br>
+                            • Проверяй дату перед покупкой!
+                        </div>
+                    </div>
+                    
+                    <div class="tip-card" onclick="toggleCard(this)">
+                        <div class="tip-icon">📦</div>
+                        <div class="tip-title">Упаковка</div>
+                        <div class="tip-text">
+                            • Должна быть целой<br>
+                            • Без повреждений и вздутий<br>
+                            • Без следов вскрытия
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-card" style="margin-top: 20px;">
+                    <strong>💡 Лайфхак:</strong> состав продукта указан в порядке убывания. То, что стоит первым — этого в продукте больше всего!
+                </div>
             </div>
+            
+            <!-- Что выбирать -->
+            <div class="tab-content" id="tab-choose">
+                <div class="section-title">✅ Какие продукты лучше выбирать?</div>
+                
+                <ul class="checklist">
+                    <li onclick="toggleCheck(this)">
+                        <span class="check-circle"></span>
+                        <span>🥬 Свежие овощи и фрукты</span>
+                    </li>
+                    <li onclick="toggleCheck(this)">
+                        <span class="check-circle"></span>
+                        <span>🌾 Натуральные продукты</span>
+                    </li>
+                    <li onclick="toggleCheck(this)">
+                        <span class="check-circle"></span>
+                        <span>🏠 Продукцию местного производства</span>
+                    </li>
+                    <li onclick="toggleCheck(this)">
+                        <span class="check-circle"></span>
+                        <span>🌿 Продукты с маркировкой «эко», «био», «органик»</span>
+                    </li>
+                </ul>
+                
+                <div class="good-card" style="margin-top: 20px;">
+                    <div class="card-title">🛒 Правило покупки</div>
+                    <p>Каждый раз, беря продукт с полки, спрашивай себя: «А это точно полезно для меня?»</p>
+                </div>
+            </div>
+            
+            <!-- Чего избегать -->
+            <div class="tab-content" id="tab-avoid">
+                <div class="section-title">🚫 Какие продукты лучше ограничить?</div>
+                
+                <ul class="checklist">
+                    <li onclick="toggleCheck(this)">
+                        <span class="check-circle"></span>
+                        <span>🍔 Фастфуд</span>
+                    </li>
+                    <li onclick="toggleCheck(this)">
+                        <span class="check-circle"></span>
+                        <span>🥡 Полуфабрикаты</span>
+                    </li>
+                    <li onclick="toggleCheck(this)">
+                        <span class="check-circle"></span>
+                        <span>⚗️ Продукты с большим количеством добавок</span>
+                    </li>
+                    <li onclick="toggleCheck(this)">
+                        <span class="check-circle"></span>
+                        <span>🌈 Продукты с яркой неестественной окраской</span>
+                    </li>
+                </ul>
+                
+                <div class="warning-card" style="margin-top: 20px;">
+                    <div class="card-title">🧪 Опасные Е-добавки</div>
+                    <p>Е102, Е122, Е124, Е211 — эти и многие другие добавки могут быть вредны. Если в составе много «Е» — лучше положить продукт обратно.</p>
+                </div>
+            </div>
+            
+            <!-- Советы -->
+            <div class="tab-content" id="tab-tips">
+                <div class="section-title">💚 Полезные советы</div>
+                
+                <div class="tips-grid">
+                    <div class="tip-card" onclick="toggleCard(this)">
+                        <div class="tip-icon">📖</div>
+                        <div class="tip-title">Читай состав</div>
+                        <div class="tip-text">Внимательно изучай этикетку. Если ингредиентов больше 5–7 — задумайся.</div>
+                    </div>
+                    
+                    <div class="tip-card" onclick="toggleCard(this)">
+                        <div class="tip-icon">⏰</div>
+                        <div class="tip-title">Проверяй срок годности</div>
+                        <div class="tip-text">Никогда не покупай продукты с истёкшим сроком годности!</div>
+                    </div>
+                    
+                    <div class="tip-card" onclick="toggleCard(this)">
+                        <div class="tip-icon">🥗</div>
+                        <div class="tip-title">Питайся разнообразно</div>
+                        <div class="tip-text">Чем больше разных натуральных продуктов — тем лучше для организма.</div>
+                    </div>
+                    
+                    <div class="tip-card" onclick="toggleCard(this)">
+                        <div class="tip-icon">❄️</div>
+                        <div class="tip-title">Соблюдай условия хранения</div>
+                        <div class="tip-text">Неправильное хранение может испортить даже самый полезный продукт.</div>
+                    </div>
+                </div>
+                
+                <div class="conclusion-box">
+                    <h3>🌟 Запомни главное</h3>
+                    <p>Выбор экологически безопасных продуктов питания — важный шаг к сохранению здоровья. Осознанный подход к покупке продуктов позволяет снизить риск употребления вредных веществ и улучшить качество жизни.</p>
+                </div>
+            </div>
+            
+            <!-- Проверь себя -->
+            <div class="tab-content" id="tab-test">
+                <div class="section-title">🎯 Проверь себя!</div>
+                
+                <div class="interactive-quiz" id="quizContainer">
+                    <div class="quiz-question" id="quizQuestion"></div>
+                    <div class="quiz-options" id="quizOptions"></div>
+                    <div class="quiz-feedback" id="quizFeedback"></div>
+                    <button class="next-btn" id="quizNextBtn" style="margin-top: 15px; display: none;" onclick="nextQuizQuestion()">Следующий вопрос →</button>
+                </div>
+                
+                <div id="quizResult" style="display: none; text-align: center; padding: 30px;">
+                    <div style="font-size: 4em; margin-bottom: 15px;">🎉</div>
+                    <div style="font-size: 1.8em; color: #2E7D32; font-weight: 900; margin-bottom: 10px;">Тест пройден!</div>
+                    <div style="font-size: 1.3em; color: #555; margin-bottom: 20px;">Твой результат: <span id="quizScore" style="color: #43A047; font-weight: 900;"></span></div>
+                    <button class="next-btn" onclick="restartQuiz()" style="float: none;">🔄 Пройти ещё раз</button>
+                </div>
+            </div>
+            
         </div>
-    </div>
-
-    <!-- ЭКРАН 4: Финал -->
-    <div class="screen hidden" id="screen-finish">
-        <div class="card">
-            <div class="ferret-emoji" style="font-size: 6em;">🎉</div>
-            <h1>Победа!</h1>
-            <div class="story-text">
-                <p>Вы разгадали все загадки Усатого Шпиона!</p>
-                <p id="finalTime">Время прохождения: —</p>
-                <p id="finalScore">Набрано очков: —</p>
-            </div>
-            <div class="hidden-code" id="secretCode">
-                КОД ТАЙНИКА: ХОРЁК2024
-            </div>
-            <div class="btn-group">
-                <button class="btn" onclick="location.reload()">Играть снова 🔄</button>
-            </div>
+        
+        <div class="footer-info">
+            🌿 Береги своё здоровье — выбирай экологически безопасные продукты!
         </div>
     </div>
 
     <script>
-        // === ИГРОВЫЕ ДАННЫЕ ===
-        let currentTeam = '';
-        let currentStage = 0;
-        let score = 0;
-        let timeLeft = 45 * 60; // 45 минут в секундах
-        let timerInterval;
-        let stageStartTime;
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById('tab-' + tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
         
-        const stages = [
+        function toggleCheck(element) {
+            element.classList.toggle('checked');
+        }
+        
+        function toggleCard(element) {
+            element.style.transform = element.style.transform === 'scale(0.98)' ? 'scale(1)' : 'scale(0.98)';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 150);
+        }
+        
+        // Quiz data
+        const quizQuestions = [
             {
-                title: "Этап 1: Лесная загадка",
-                icon: "🌲",
-                type: "riddle",
-                text: "Я расту без корней, лечу без крыльев. Падаю без травмы, а роняешь — плачешь. Что это?",
+                question: "Какой продукт экологически более безопасен?",
                 options: [
-                    { text: "Снег ❄️", correct: false },
-                    { text: "Слеза 💧", correct: true },
-                    { text: "Лист 🍃", correct: false },
-                    { text: "Облако ☁️", correct: false }
-                ],
-                clue: "Подсказка: Это из тебя вытекает, когда грустно...",
-                codeDigit: "7"
+                    { text: "Яблоко с садового участка бабушки", correct: true, feedback: "Верно! Свежие натуральные продукты — лучший выбор." },
+                    { text: "Яблочный десерт с 15 ингредиентами в составе", correct: false, feedback: "Нет. Чем больше компонентов, тем больше вероятность наличия добавок." },
+                    { text: "Яблочный леденец ярко-зелёного цвета", correct: false, feedback: "Нет. Яркая неестественная окраска — признак красителей." }
+                ]
             },
             {
-                title: "Этап 2: Шифр хорька",
-                icon: "🧩",
-                type: "code",
-                text: "Расшифруй слово по картинкам: 🌙 + 🍰 = ?",
-                answer: "ПИРОГ",
-                clue: "Подсказка: Ночь + сладость = вкусняшка на праздник",
-                codeDigit: "3"
+                question: "Что говорит о наличии большого количества консервантов?",
+                options: [
+                    { text: "Короткий срок годности", correct: false, feedback: "Нет. Короткий срок — признак свежести и натуральности." },
+                    { text: "Очень длинный срок годности", correct: true, feedback: "Верно! Долгий срок часто достигается за счёт консервантов." },
+                    { text: "Красивая упаковка", correct: false, feedback: "Нет. Упаковка не связана напрямую с консервантами." }
+                ]
             },
             {
-                title: "Этап 3: Физкульт-привет!",
-                icon: "🏃",
-                type: "physical",
-                text: "Выполните в команде:",
-                tasks: [
-                    "10 прыжков на каждого",
-                    "5 отжиманий от скамейки",
-                    "Пройти 10 шагов на руках (вдвоём)",
-                    "Все вместе: 15 приседаний"
-                ],
-                clue: "Подсказка: Последняя буква названия упражнения — 'Ы'",
-                codeDigit: "9"
+                question: "Какой продукт лучше ограничить в рационе?",
+                options: [
+                    { text: "Свежие овощи с местного рынка", correct: false, feedback: "Нет. Свежие овощи — отличный выбор!" },
+                    { text: "Натуральный йогурт без добавок", correct: false, feedback: "Нет. Натуральный йогурт — полезный продукт." },
+                    { text: "Гамбургер из фастфуда", correct: true, feedback: "Верно! Фастфуд содержит много вредных добавок и жиров." }
+                ]
             },
             {
-                title: "Этап 4: Фотоохота",
-                icon: "📸",
-                type: "photo",
-                text: "Сделайте фото, где:",
-                tasks: [
-                    "Вся группа с вожатым",
-                    "Вкусно кормят",
-                    "Вся команда на поле (спорт площадка)",
-                    "Происходят самые крутые концерты"
-                ],
-                clue: "Подсказка: Не забудь найти цифру на каждом месте",
-                codeDigit: "8"
+                question: "На что в первую очередь смотреть на этикетке?",
+                options: [
+                    { text: "Яркую картинку", correct: false, feedback: "Нет. Картинка — маркетинг, а не показатель качества." },
+                    { text: "Состав продукта", correct: true, feedback: "Верно! Состав — главное, что нужно читать." },
+                    { text: "Название бренда", correct: false, feedback: "Нет. Бренд не гарантирует экологичность." }
+                ]
             },
             {
-                title: "Этап 5: Последний код",
-                icon: "🔐",
-                type: "final",
-                text: "Введите цифры, полученные на каждом этапе:",
-                clue: "Если забыли — спросите у вожатого подсказку",
-                correctCode: "7398"
+                question: "Что означает маркировка «органик» на продукте?",
+                options: [
+                    { text: "Продукт выращен без химикатов", correct: true, feedback: "Верно! Органик — значит без пестицидов и химических удобрений." },
+                    { text: "Продукт очень дорогой", correct: false, feedback: "Нет. Цена — не главный признак органики." },
+                    { text: "Продукт импортный", correct: false, feedback: "Нет. Органика может быть и местной." }
+                ]
             }
         ];
         
-        // === ФУНКЦИИ ===
+        let currentQuizQuestion = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
         
-        function startQuest() {
-            document.getElementById('screen-start').classList.add('hidden');
-            document.getElementById('screen-team').classList.remove('hidden');
+        function initQuiz() {
+            currentQuizQuestion = 0;
+            quizScore = 0;
+            quizAnswered = false;
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('quizResult').style.display = 'none';
+            showQuizQuestion();
         }
         
-        function selectTeam(name) {
-            currentTeam = name;
-            document.getElementById('teamName').textContent = name;
-            document.getElementById('screen-team').classList.add('hidden');
-            document.getElementById('screen-game').classList.remove('hidden');
-            startTimer();
-            loadStage(0);
-        }
-        
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                const mins = Math.floor(timeLeft / 60);
-                const secs = timeLeft % 60;
-                document.getElementById('mainTimer').textContent = 
-                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-                
-                if (timeLeft <= 300) { // 5 минут
-                    document.getElementById('mainTimer').style.color = '#ef5350';
-                }
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    alert('Время вышло! Но вы молодцы, что попытались! 🦦');
-                }
-            }, 1000);
-        }
-        
-        function loadStage(index) {
-            currentStage = index;
-            stageStartTime = Date.now();
-            const stage = stages[index];
-            const container = document.getElementById('stage-content');
+        function showQuizQuestion() {
+            const q = quizQuestions[currentQuizQuestion];
+            document.getElementById('quizQuestion').textContent = `Вопрос ${currentQuizQuestion + 1} из ${quizQuestions.length}: ${q.question}`;
             
-            // Обновляем прогресс
-            document.querySelectorAll('.stage-dot').forEach((dot, i) => {
-                dot.classList.remove('current', 'completed');
-                if (i < index) dot.classList.add('completed');
-                if (i === index) dot.classList.add('current');
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.textContent = opt.text;
+                btn.onclick = () => checkQuizAnswer(index, btn);
+                optionsContainer.appendChild(btn);
             });
             
-            let html = `
-                <h2>${stage.title} ${stage.icon}</h2>
-                <div class="story-text">${stage.text}</div>
-            `;
-            
-            if (stage.type === 'riddle') {
-                html += `<div class="riddle-options">`;
-                stage.options.forEach((opt, i) => {
-                    html += `<div class="riddle-option" onclick="checkRiddle(this, ${opt.correct})">${opt.text}</div>`;
-                });
-                html += `</div>`;
-            }
-            
-            if (stage.type === 'code') {
-                html += `
-                    <div class="code-input">
-                        <input type="text" maxlength="1" id="c1" onkeyup="moveNext(this, 'c2')">
-                        <input type="text" maxlength="1" id="c2" onkeyup="moveNext(this, 'c3')">
-                        <input type="text" maxlength="1" id="c3" onkeyup="moveNext(this, 'c4')">
-                        <input type="text" maxlength="1" id="c4" onkeyup="moveNext(this, 'c5')">
-                        <input type="text" maxlength="1" id="c5" onkeyup="checkWord()">
-                    </div>
-                    <button class="btn" onclick="checkWord()">Проверить ✓</button>
-                `;
-            }
-            
-            if (stage.type === 'physical') {
-                html += `<div class="task-box">`;
-                stage.tasks.forEach((task, i) => {
-                    html += `<p style="margin: 10px 0;"><span class="task-number">${i+1}</span>${task}</p>`;
-                });
-                html += `</div>
-                    <button class="btn green" onclick="completePhysical()">Мы справились! 💪</button>
-                `;
-            }
-            
-            if (stage.type === 'photo') {
-                html += `<div class="photo-task">`;
-                stage.tasks.forEach((task, i) => {
-                    html += `<p style="margin: 15px 0; font-size: 1.2em;">📷 ${task}</p>`;
-                });
-                html += `</div>
-                    <button class="btn blue" onclick="completePhoto()">Фото готовы! 📸</button>
-                `;
-            }
-            
-            if (stage.type === 'final') {
-                html += `
-                    <div class="code-input">
-                        <input type="text" maxlength="1" id="f1">
-                        <input type="text" maxlength="1" id="f2">
-                        <input type="text" maxlength="1" id="f3">
-                        <input type="text" maxlength="1" id="f4">
-                    </div>
-                    <button class="btn" onclick="checkFinalCode()">Открыть тайник 🔓</button>
-                `;
-            }
-            
-            html += `
-                <div class="clue-box" style="margin-top: 20px; cursor: pointer;" onclick="this.style.opacity='1'">
-                    <strong>💡 Нужна подсказка?</strong> (нажми)<br>
-                    <span style="opacity: 0.7;">${stage.clue}</span>
-                </div>
-            `;
-            
-            container.innerHTML = html;
+            document.getElementById('quizFeedback').className = 'quiz-feedback';
+            document.getElementById('quizFeedback').classList.remove('show');
+            document.getElementById('quizNextBtn').style.display = 'none';
+            quizAnswered = false;
         }
         
-        function checkRiddle(element, isCorrect) {
-            const options = document.querySelectorAll('.riddle-option');
-            options.forEach(opt => opt.style.pointerEvents = 'none');
+        function checkQuizAnswer(index, btn) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+            
+            const q = quizQuestions[currentQuizQuestion];
+            const isCorrect = q.options[index].correct;
+            const feedback = document.getElementById('quizFeedback');
+            
+            // Disable all buttons
+            document.querySelectorAll('.quiz-option').forEach(b => {
+                b.style.pointerEvents = 'none';
+            });
             
             if (isCorrect) {
-                element.classList.add('correct');
-                score += 100;
-                setTimeout(() => nextStage(), 1500);
+                btn.classList.add('correct');
+                feedback.className = 'quiz-feedback correct-msg show';
+                feedback.textContent = '✅ ' + q.options[index].feedback;
+                quizScore++;
             } else {
-                element.classList.add('wrong');
-                score = Math.max(0, score - 20);
-                setTimeout(() => {
-                    options.forEach(opt => {
-                        opt.style.pointerEvents = 'auto';
-                        opt.classList.remove('wrong');
-                    });
-                }, 1000);
+                btn.classList.add('wrong');
+                feedback.className = 'quiz-feedback wrong-msg show';
+                feedback.textContent = '❌ ' + q.options[index].feedback;
+                
+                // Highlight correct
+                document.querySelectorAll('.quiz-option').forEach((b, i) => {
+                    if (q.options[i].correct) b.classList.add('correct');
+                });
+            }
+            
+            document.getElementById('quizNextBtn').style.display = 'inline-block';
+            if (currentQuizQuestion === quizQuestions.length - 1) {
+                document.getElementById('quizNextBtn').textContent = '🎉 Узнать результат!';
             }
         }
         
-        function moveNext(current, nextId) {
-            if (current.value.length === 1) {
-                document.getElementById(nextId)?.focus();
-            }
-        }
-        
-        function checkWord() {
-            const word = ['c1','c2','c3','c4','c5'].map(id => document.getElementById(id)?.value).join('').toUpperCase();
-            if (word === 'ПИРОГ' || word === 'PIROG') {
-                score += 100;
-                nextStage();
+        function nextQuizQuestion() {
+            currentQuizQuestion++;
+            if (currentQuizQuestion >= quizQuestions.length) {
+                showQuizResult();
             } else {
-                alert('Не-а! Подумай ещё... 🧐');
+                showQuizQuestion();
             }
         }
         
-        function completePhysical() {
-            score += 100;
-            nextStage();
+        function showQuizResult() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('quizResult').style.display = 'block';
+            document.getElementById('quizScore').textContent = `${quizScore} из ${quizQuestions.length}`;
         }
         
-        function completePhoto() {
-            score += 100;
-            nextStage();
+        function restartQuiz() {
+            initQuiz();
         }
         
-        function checkFinalCode() {
-            const code = ['f1','f2','f3','f4'].map(id => document.getElementById(id)?.value).join('');
-            if (code === stages[4].correctCode) {
-                score += 200;
-                finishGame();
-            } else {
-                alert('Код неверный! Проверь цифры с каждого этапа...');
-            }
-        }
-        
-        function nextStage() {
-            confetti();
-            if (currentStage < stages.length - 1) {
-                setTimeout(() => loadStage(currentStage + 1), 1000);
-            } else {
-                finishGame();
-            }
-        }
-        
-        function finishGame() {
-            clearInterval(timerInterval);
-            const timeSpent = 45 * 60 - timeLeft;
-            const mins = Math.floor(timeSpent / 60);
-            const secs = timeSpent % 60;
-            
-            document.getElementById('screen-game').classList.add('hidden');
-            document.getElementById('screen-finish').classList.remove('hidden');
-            
-            document.getElementById('finalTime').textContent = 
-                `Время прохождения: ${mins} мин ${secs} сек`;
-            document.getElementById('finalScore').textContent = 
-                `Набрано очков: ${score}`;
-            
-            // Бонус за скорость
-            if (timeSpent < 20 * 60) score += 100;
-            
-            confetti();
-            setTimeout(confetti, 500);
-            setTimeout(confetti, 1000);
-        }
-        
-        function confetti() {
-            const emojis = ['🎉', '🎊', '⭐', '🦦', '🌲', '🏆', '🍰', '🎈'];
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    const el = document.createElement('div');
-                    el.className = 'confetti';
-                    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                    el.style.left = Math.random() * 100 + '%';
-                    el.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    el.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                    document.body.appendChild(el);
-                    setTimeout(() => el.remove(), 3000);
-                }, i * 100);
-            }
-        }
+        // Initialize quiz when tab is opened
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                if (this.textContent.includes('Проверь')) {
+                    setTimeout(initQuiz, 300);
+                }
+            });
+        });
     </script>
 </body>
 </html>
+"""
+
+with open('/mnt/agents/output/eco_food_guide.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("Файл сохранён!")
