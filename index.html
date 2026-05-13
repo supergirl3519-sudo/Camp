@@ -1,4 +1,4 @@
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -388,6 +388,27 @@ html_content = """<!DOCTYPE html>
             color: #C62828;
         }
 
+        .next-btn {
+            margin-top: 20px;
+            padding: 15px 40px;
+            background-color: #43A047;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(67, 160, 71, 0.4);
+        }
+
+        .next-btn:hover {
+            background-color: #388E3C;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 160, 71, 0.5);
+        }
+
         .footer-info {
             text-align: center;
             padding: 20px;
@@ -633,7 +654,7 @@ html_content = """<!DOCTYPE html>
                     <div class="quiz-question" id="quizQuestion"></div>
                     <div class="quiz-options" id="quizOptions"></div>
                     <div class="quiz-feedback" id="quizFeedback"></div>
-                    <button class="next-btn" id="quizNextBtn" style="margin-top: 15px; display: none;" onclick="nextQuizQuestion()">Следующий вопрос →</button>
+                    <button class="next-btn" id="quizNextBtn" style="display: none;" onclick="nextQuizQuestion()">Следующий вопрос →</button>
                 </div>
                 
                 <div id="quizResult" style="display: none; text-align: center; padding: 30px;">
@@ -653,11 +674,9 @@ html_content = """<!DOCTYPE html>
 
     <script>
         function showTab(tabId) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
             
-            // Show selected tab
             document.getElementById('tab-' + tabId).classList.add('active');
             event.target.classList.add('active');
         }
@@ -673,7 +692,6 @@ html_content = """<!DOCTYPE html>
             }, 150);
         }
         
-        // Quiz data
         const quizQuestions = [
             {
                 question: "Какой продукт экологически более безопасен?",
@@ -759,7 +777,6 @@ html_content = """<!DOCTYPE html>
             const isCorrect = q.options[index].correct;
             const feedback = document.getElementById('quizFeedback');
             
-            // Disable all buttons
             document.querySelectorAll('.quiz-option').forEach(b => {
                 b.style.pointerEvents = 'none';
             });
@@ -774,7 +791,6 @@ html_content = """<!DOCTYPE html>
                 feedback.className = 'quiz-feedback wrong-msg show';
                 feedback.textContent = '❌ ' + q.options[index].feedback;
                 
-                // Highlight correct
                 document.querySelectorAll('.quiz-option').forEach((b, i) => {
                     if (q.options[i].correct) b.classList.add('correct');
                 });
@@ -805,7 +821,6 @@ html_content = """<!DOCTYPE html>
             initQuiz();
         }
         
-        // Initialize quiz when tab is opened
         document.querySelectorAll('.nav-tab').forEach(tab => {
             tab.addEventListener('click', function() {
                 if (this.textContent.includes('Проверь')) {
@@ -815,3 +830,4 @@ html_content = """<!DOCTYPE html>
         });
     </script>
 </body>
+</html>
