@@ -3,830 +3,475 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Экологически безопасные продукты — интерактивная памятка</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Джойтека — преимущества платформы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Open Sans', sans-serif; overflow: hidden; background: #0f172a; }
+        
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
         }
-
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #E8F5E9;
-            min-height: 100vh;
-            display: flex;
+        
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 60px 80px;
+            transition: opacity 0.5s ease;
         }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            overflow: hidden;
-        }
-
-        .header {
-            background-color: #43A047;
-            padding: 40px 30px;
+        
+        .slide.active { display: flex; }
+        
+        /* Слайд 1 — Титульный */
+        .slide-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             text-align: center;
-            position: relative;
+        }
+        .slide-1 h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+        .slide-1 .subtitle {
+            font-size: 28px;
+            font-weight: 300;
+            opacity: 0.95;
+            margin-bottom: 50px;
+        }
+        .slide-1 .vs-badge {
+            display: inline-flex;
+            gap: 30px;
+            align-items: center;
+            background: rgba(255,255,255,0.15);
+            padding: 20px 50px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .slide-1 .vs-badge span { opacity: 0.7; }
+        
+        /* Слайд 2 — Главное отличие */
+        .slide-2 {
+            background: #0f172a;
+            color: white;
+        }
+        .slide-2 h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        .concept-grid {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .concept-card {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .concept-card.highlight {
+            background: linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3));
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+        .concept-card .icon {
+            font-size: 64px;
+            margin-bottom: 25px;
+        }
+        .concept-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .concept-card p {
+            font-size: 18px;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+        
+        /* Слайд 3 — Сравнительная таблица */
+        .slide-3 {
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        .slide-3 h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 44px;
+            font-weight: 800;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .comparison-table {
+            width: 100%;
+            max-width: 1100px;
+            border-collapse: collapse;
+            font-size: 18px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            border-radius: 16px;
             overflow: hidden;
         }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        .header h1 {
+        .comparison-table th {
+            background: #1e293b;
             color: white;
-            font-size: 1.9em;
-            font-weight: 900;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 1;
-        }
-
-        .header .subtitle {
-            color: #C8E6C9;
-            font-size: 1.1em;
-            margin-top: 10px;
-            font-weight: 600;
-            position: relative;
-            z-index: 1;
-        }
-
-        .nav-tabs {
-            display: flex;
-            overflow-x: auto;
-            background-color: #F1F8E9;
-            padding: 12px 15px;
-            gap: 8px;
-            scrollbar-width: none;
-        }
-
-        .nav-tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .nav-tab {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 20px;
-            background: white;
-            color: #555;
-            font-family: 'Nunito', sans-serif;
+            padding: 22px 25px;
+            text-align: left;
+            font-family: 'Montserrat', sans-serif;
             font-weight: 700;
-            font-size: 0.9em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 20px;
         }
-
-        .nav-tab:hover {
-            background-color: #C8E6C9;
-            color: #1B5E20;
+        .comparison-table th:first-child { width: 35%; }
+        .comparison-table td {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
         }
-
-        .nav-tab.active {
-            background-color: #43A047;
+        .comparison-table tr:hover td { background: #f1f5f9; }
+        .comparison-table .joy { 
+            color: #059669; 
+            font-weight: 700;
+            background: #ecfdf5 !important;
+        }
+        .comparison-table .bad { 
+            color: #dc2626; 
+            font-weight: 600;
+        }
+        .comparison-table .meh { 
+            color: #d97706; 
+            font-weight: 600;
+        }
+        
+        /* Слайд 4 — 3 факта */
+        .slide-4 {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             color: white;
-            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.3);
         }
-
-        .content-area {
-            padding: 30px;
-            min-height: 400px;
+        .slide-4 h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 44px;
+            font-weight: 800;
+            margin-bottom: 60px;
+            text-align: center;
         }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease;
+        .facts-grid {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
         }
-
-        .tab-content.active {
-            display: block;
+        .fact-card {
+            flex: 1;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 50px 35px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+        .fact-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 72px;
+            font-weight: 900;
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        .fact-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .fact-card p {
+            font-size: 17px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        /* Слайд 5 — Итог */
+        .slide-5 {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+        }
+        .slide-5 .final-icon {
+            font-size: 100px;
+            margin-bottom: 30px;
+        }
+        .slide-5 h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 40px;
+        }
+        .final-quote {
+            font-size: 28px;
+            font-style: italic;
+            opacity: 0.9;
+            max-width: 800px;
+            line-height: 1.5;
+            margin-bottom: 50px;
+        }
+        .final-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 60px;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 10px 40px rgba(102,126,234,0.4);
+        }
+        
+        /* Навигация */
+        .nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+            background: rgba(0,0,0,0.3);
+            padding: 12px 25px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+        .nav button {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .nav button.active { background: white; transform: scale(1.3); }
+        .nav button:hover { background: rgba(255,255,255,0.7); }
+        
+        .arrow-keys {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 14px;
+            z-index: 100;
+        }
+        
+        .slide-num {
+            position: fixed;
+            top: 30px;
+            right: 40px;
+            color: rgba(255,255,255,0.3);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            z-index: 100;
+        }
+        .slide-3 .slide-num, .slide-3 .arrow-keys { color: rgba(0,0,0,0.3); }
+        
+        /* Адаптив */
+        @media (max-width: 768px) {
+            .slide { padding: 30px 20px; }
+            .slide-1 h1 { font-size: 42px; }
+            .slide-1 .subtitle { font-size: 20px; }
+            .concept-grid, .facts-grid { flex-direction: column; }
+            .comparison-table { font-size: 14px; }
+            .comparison-table th, .comparison-table td { padding: 12px 15px; }
+        }
+        
+        /* Анимации */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .section-title {
-            font-size: 1.5em;
-            color: #2E7D32;
-            font-weight: 900;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .info-card {
-            background-color: #F1F8E9;
-            border-left: 5px solid #43A047;
-            padding: 20px;
-            border-radius: 0 16px 16px 0;
-            margin-bottom: 20px;
-            font-size: 1.05em;
-            color: #333;
-            line-height: 1.7;
-        }
-
-        .checklist {
-            list-style: none;
-            padding: 0;
-        }
-
-        .checklist li {
-            padding: 14px 16px;
-            margin-bottom: 10px;
-            background: white;
-            border: 2px solid #E0E0E0;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.05em;
-            font-weight: 600;
-            color: #444;
-        }
-
-        .checklist li:hover {
-            border-color: #43A047;
-            background-color: #F1F8E9;
-            transform: translateX(5px);
-        }
-
-        .checklist li.checked {
-            border-color: #43A047;
-            background-color: #E8F5E9;
-            color: #2E7D32;
-        }
-
-        .checklist li.checked .check-circle {
-            background-color: #43A047;
-            border-color: #43A047;
-        }
-
-        .checklist li.checked .check-circle::after {
-            content: '✓';
-            color: white;
-            font-weight: 900;
-        }
-
-        .check-circle {
-            width: 28px;
-            height: 28px;
-            border: 3px solid #BDBDBD;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-        }
-
-        .warning-card {
-            background-color: #FFF3E0;
-            border-left: 5px solid #FF9800;
-            padding: 20px;
-            border-radius: 0 16px 16px 0;
-            margin-bottom: 15px;
-        }
-
-        .warning-card .card-title {
-            color: #E65100;
-            font-weight: 800;
-            font-size: 1.1em;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .warning-card p {
-            color: #5D4037;
-            line-height: 1.6;
-        }
-
-        .good-card {
-            background-color: #E8F5E9;
-            border-left: 5px solid #4CAF50;
-            padding: 20px;
-            border-radius: 0 16px 16px 0;
-            margin-bottom: 15px;
-        }
-
-        .good-card .card-title {
-            color: #2E7D32;
-            font-weight: 800;
-            font-size: 1.1em;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .good-card p {
-            color: #33691E;
-            line-height: 1.6;
-        }
-
-        .tips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .tip-card {
-            background: white;
-            border: 2px solid #C8E6C9;
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .tip-card:hover {
-            border-color: #43A047;
-            box-shadow: 0 8px 20px rgba(67, 160, 71, 0.15);
-            transform: translateY(-3px);
-        }
-
-        .tip-card .tip-icon {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-
-        .tip-card .tip-title {
-            font-weight: 800;
-            color: #2E7D32;
-            margin-bottom: 8px;
-            font-size: 1.05em;
-        }
-
-        .tip-card .tip-text {
-            color: #555;
-            font-size: 0.95em;
-            line-height: 1.5;
-        }
-
-        .conclusion-box {
-            background-color: #2E7D32;
-            color: white;
-            padding: 25px;
-            border-radius: 16px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .conclusion-box h3 {
-            font-size: 1.3em;
-            margin-bottom: 12px;
-            font-weight: 900;
-        }
-
-        .conclusion-box p {
-            font-size: 1.05em;
-            line-height: 1.7;
-            opacity: 0.95;
-        }
-
-        .interactive-quiz {
-            margin-top: 20px;
-        }
-
-        .quiz-question {
-            background: #F1F8E9;
-            padding: 18px;
-            border-radius: 14px;
-            margin-bottom: 15px;
-            font-weight: 700;
-            color: #2E7D32;
-            font-size: 1.05em;
-        }
-
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .quiz-option {
-            padding: 14px 18px;
-            border: 2px solid #E0E0E0;
-            border-radius: 12px;
-            background: white;
-            cursor: pointer;
-            font-family: 'Nunito', sans-serif;
-            font-size: 1em;
-            font-weight: 600;
-            text-align: left;
-            transition: all 0.3s ease;
-        }
-
-        .quiz-option:hover {
-            border-color: #43A047;
-            background-color: #F1F8E9;
-        }
-
-        .quiz-option.correct {
-            border-color: #4CAF50;
-            background-color: #E8F5E9;
-            color: #2E7D32;
-        }
-
-        .quiz-option.wrong {
-            border-color: #F44336;
-            background-color: #FFEBEE;
-            color: #C62828;
-        }
-
-        .quiz-feedback {
-            margin-top: 12px;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 700;
-            display: none;
-        }
-
-        .quiz-feedback.show {
-            display: block;
-        }
-
-        .quiz-feedback.correct-msg {
-            background-color: #E8F5E9;
-            color: #2E7D32;
-        }
-
-        .quiz-feedback.wrong-msg {
-            background-color: #FFEBEE;
-            color: #C62828;
-        }
-
-        .next-btn {
-            margin-top: 20px;
-            padding: 15px 40px;
-            background-color: #43A047;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.1em;
-            font-weight: 800;
-            font-family: 'Nunito', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(67, 160, 71, 0.4);
-        }
-
-        .next-btn:hover {
-            background-color: #388E3C;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(67, 160, 71, 0.5);
-        }
-
-        .footer-info {
-            text-align: center;
-            padding: 20px;
-            background-color: #F5F5F5;
-            color: #888;
-            font-size: 0.9em;
-        }
-
-        .highlight-box {
-            background-color: #FFFDE7;
-            border: 2px dashed #FBC02D;
-            padding: 18px;
-            border-radius: 14px;
-            margin: 15px 0;
-            text-align: center;
-        }
-
-        .highlight-box .highlight-icon {
-            font-size: 2.5em;
-            margin-bottom: 8px;
-        }
-
-        .highlight-box p {
-            color: #5D4037;
-            font-weight: 700;
-            font-size: 1.1em;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 { font-size: 1.4em; }
-            .tips-grid { grid-template-columns: 1fr; }
-            .nav-tab { font-size: 0.8em; padding: 8px 12px; }
-        }
+        .slide.active > * { animation: fadeInUp 0.6s ease forwards; }
+        .slide.active > *:nth-child(1) { animation-delay: 0.1s; }
+        .slide.active > *:nth-child(2) { animation-delay: 0.2s; }
+        .slide.active > *:nth-child(3) { animation-delay: 0.3s; }
+        .slide.active > *:nth-child(4) { animation-delay: 0.4s; }
+        .slide.active > *:nth-child(5) { animation-delay: 0.5s; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🌿 Экологически безопасные продукты</h1>
-            <p class="subtitle">Интерактивная памятка для осознанного выбора</p>
+    <div class="presentation">
+        
+        <!-- Слайд 1: Титульный -->
+        <div class="slide slide-1 active">
+            <div class="slide-num">01 / 05</div>
+            <h1>🎯 ДЖОЙТЕКА</h1>
+            <p class="subtitle">Почему мы лучше конкурентов</p>
+            <div class="vs-badge">
+                <span>Учи.ру</span>
+                <span style="font-size:28px;">⚡</span>
+                <span>ЯКласс</span>
+            </div>
         </div>
         
-        <div class="nav-tabs">
-            <button class="nav-tab active" onclick="showTab('what')">❓ Что это?</button>
-            <button class="nav-tab" onclick="showTab('why')">💡 Почему важно</button>
-            <button class="nav-tab" onclick="showTab('how')">👀 На что смотреть</button>
-            <button class="nav-tab" onclick="showTab('choose')">✅ Что выбирать</button>
-            <button class="nav-tab" onclick="showTab('avoid')">🚫 Чего избегать</button>
-            <button class="nav-tab" onclick="showTab('tips')">💚 Советы</button>
-            <button class="nav-tab" onclick="showTab('test')">🎯 Проверь себя</button>
+        <!-- Слайд 2: Главное отличие -->
+        <div class="slide slide-2">
+            <div class="slide-num">02 / 05</div>
+            <h2>Главное отличие</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="icon">📚</div>
+                    <h3>Учи.ру</h3>
+                    <p>Библиотека готовых карточек. Ищешь — решаешь. Без гибкости.</p>
+                </div>
+                <div class="concept-card highlight">
+                    <div class="icon">🛠️</div>
+                    <h3>Джойтека</h3>
+                    <p>Конструктор интерактивных заданий. Создаёшь сам за 3 минуты. Любая тема, любой предмет.</p>
+                </div>
+                <div class="concept-card">
+                    <div class="icon">📋</div>
+                    <h3>ЯКласс</h3>
+                    <p>Готовые задания по школьной программе. Без возможности создать своё.</p>
+                </div>
+            </div>
         </div>
         
-        <div class="content-area" id="contentArea">
-            
-            <!-- Что это? -->
-            <div class="tab-content active" id="tab-what">
-                <div class="section-title">🌱 Что такое экологически безопасные продукты?</div>
-                
-                <div class="info-card">
-                    <strong>Экологически безопасные продукты питания</strong> — это продукты, которые:
-                    <ul style="margin-top: 10px; padding-left: 20px;">
-                        <li>Не содержат вредных химических веществ</li>
-                        <li>Произведены с соблюдением санитарных норм</li>
-                        <li>Не наносят вред здоровью человека</li>
-                    </ul>
-                </div>
-                
-                <div class="highlight-box">
-                    <div class="highlight-icon">🍎</div>
-                    <p>Эко-продукты = здоровье + забота о природе + качество!</p>
-                </div>
-                
-                <div class="info-card" style="border-left-color: #FF9800;">
-                    <strong>Запомни:</strong> экологически безопасный продукт — это не всегда дорогой продукт. Главное — внимательность при выборе!
-                </div>
-            </div>
-            
-            <!-- Почему важно -->
-            <div class="tab-content" id="tab-why">
-                <div class="section-title">💡 Почему это важно?</div>
-                
-                <div class="warning-card">
-                    <div class="card-title">⚠️ Продукты могут содержать вредные добавки</div>
-                    <p>Консерванты, красители, усилители вкуса — всё это может накапливаться в организме и вызывать проблемы со здоровьем.</p>
-                </div>
-                
-                <div class="warning-card">
-                    <div class="card-title">📉 Снижается качество питания</div>
-                    <p>Продукты с большим количеством химии содержат меньше полезных витаминов и микроэлементов.</p>
-                </div>
-                
-                <div class="warning-card">
-                    <div class="card-title">🏥 Возможен вред здоровью</div>
-                    <p>Аллергии, проблемы с пищеварением, снижение иммунитета — всё это может быть следствием неправильного питания.</p>
-                </div>
-                
-                <div class="good-card">
-                    <div class="card-title">✅ А если выбирать правильно?</div>
-                    <p>Больше энергии, крепкий иммунитет, хорошее настроение и уверенность в том, что ты ешь!</p>
-                </div>
-            </div>
-            
-            <!-- На что смотреть -->
-            <div class="tab-content" id="tab-how">
-                <div class="section-title">👀 На что обращать внимание при выборе?</div>
-                
-                <div class="tips-grid">
-                    <div class="tip-card" onclick="toggleCard(this)">
-                        <div class="tip-icon">📋</div>
-                        <div class="tip-title">Состав продукта</div>
-                        <div class="tip-text">
-                            • Чем меньше компонентов — тем лучше<br>
-                            • Избегай большого количества Е-добавок<br>
-                            • Если не можешь прочитать название — подумай, стоит ли покупать
-                        </div>
-                    </div>
-                    
-                    <div class="tip-card" onclick="toggleCard(this)">
-                        <div class="tip-icon">📅</div>
-                        <div class="tip-title">Срок годности</div>
-                        <div class="tip-text">
-                            • Слишком долгий срок = много консервантов<br>
-                            • Выбирай свежие продукты<br>
-                            • Проверяй дату перед покупкой!
-                        </div>
-                    </div>
-                    
-                    <div class="tip-card" onclick="toggleCard(this)">
-                        <div class="tip-icon">📦</div>
-                        <div class="tip-title">Упаковка</div>
-                        <div class="tip-text">
-                            • Должна быть целой<br>
-                            • Без повреждений и вздутий<br>
-                            • Без следов вскрытия
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="info-card" style="margin-top: 20px;">
-                    <strong>💡 Лайфхак:</strong> состав продукта указан в порядке убывания. То, что стоит первым — этого в продукте больше всего!
-                </div>
-            </div>
-            
-            <!-- Что выбирать -->
-            <div class="tab-content" id="tab-choose">
-                <div class="section-title">✅ Какие продукты лучше выбирать?</div>
-                
-                <ul class="checklist">
-                    <li onclick="toggleCheck(this)">
-                        <span class="check-circle"></span>
-                        <span>🥬 Свежие овощи и фрукты</span>
-                    </li>
-                    <li onclick="toggleCheck(this)">
-                        <span class="check-circle"></span>
-                        <span>🌾 Натуральные продукты</span>
-                    </li>
-                    <li onclick="toggleCheck(this)">
-                        <span class="check-circle"></span>
-                        <span>🏠 Продукцию местного производства</span>
-                    </li>
-                    <li onclick="toggleCheck(this)">
-                        <span class="check-circle"></span>
-                        <span>🌿 Продукты с маркировкой «эко», «био», «органик»</span>
-                    </li>
-                </ul>
-                
-                <div class="good-card" style="margin-top: 20px;">
-                    <div class="card-title">🛒 Правило покупки</div>
-                    <p>Каждый раз, беря продукт с полки, спрашивай себя: «А это точно полезно для меня?»</p>
-                </div>
-            </div>
-            
-            <!-- Чего избегать -->
-            <div class="tab-content" id="tab-avoid">
-                <div class="section-title">🚫 Какие продукты лучше ограничить?</div>
-                
-                <ul class="checklist">
-                    <li onclick="toggleCheck(this)">
-                        <span class="check-circle"></span>
-                        <span>🍔 Фастфуд</span>
-                    </li>
-                    <li onclick="toggleCheck(this)">
-                        <span class="check-circle"></span>
-                        <span>🥡 Полуфабрикаты</span>
-                    </li>
-                    <li onclick="toggleCheck(this)">
-                        <span class="check-circle"></span>
-                        <span>⚗️ Продукты с большим количеством добавок</span>
-                    </li>
-                    <li onclick="toggleCheck(this)">
-                        <span class="check-circle"></span>
-                        <span>🌈 Продукты с яркой неестественной окраской</span>
-                    </li>
-                </ul>
-                
-                <div class="warning-card" style="margin-top: 20px;">
-                    <div class="card-title">🧪 Опасные Е-добавки</div>
-                    <p>Е102, Е122, Е124, Е211 — эти и многие другие добавки могут быть вредны. Если в составе много «Е» — лучше положить продукт обратно.</p>
-                </div>
-            </div>
-            
-            <!-- Советы -->
-            <div class="tab-content" id="tab-tips">
-                <div class="section-title">💚 Полезные советы</div>
-                
-                <div class="tips-grid">
-                    <div class="tip-card" onclick="toggleCard(this)">
-                        <div class="tip-icon">📖</div>
-                        <div class="tip-title">Читай состав</div>
-                        <div class="tip-text">Внимательно изучай этикетку. Если ингредиентов больше 5–7 — задумайся.</div>
-                    </div>
-                    
-                    <div class="tip-card" onclick="toggleCard(this)">
-                        <div class="tip-icon">⏰</div>
-                        <div class="tip-title">Проверяй срок годности</div>
-                        <div class="tip-text">Никогда не покупай продукты с истёкшим сроком годности!</div>
-                    </div>
-                    
-                    <div class="tip-card" onclick="toggleCard(this)">
-                        <div class="tip-icon">🥗</div>
-                        <div class="tip-title">Питайся разнообразно</div>
-                        <div class="tip-text">Чем больше разных натуральных продуктов — тем лучше для организма.</div>
-                    </div>
-                    
-                    <div class="tip-card" onclick="toggleCard(this)">
-                        <div class="tip-icon">❄️</div>
-                        <div class="tip-title">Соблюдай условия хранения</div>
-                        <div class="tip-text">Неправильное хранение может испортить даже самый полезный продукт.</div>
-                    </div>
-                </div>
-                
-                <div class="conclusion-box">
-                    <h3>🌟 Запомни главное</h3>
-                    <p>Выбор экологически безопасных продуктов питания — важный шаг к сохранению здоровья. Осознанный подход к покупке продуктов позволяет снизить риск употребления вредных веществ и улучшить качество жизни.</p>
-                </div>
-            </div>
-            
-            <!-- Проверь себя -->
-            <div class="tab-content" id="tab-test">
-                <div class="section-title">🎯 Проверь себя!</div>
-                
-                <div class="interactive-quiz" id="quizContainer">
-                    <div class="quiz-question" id="quizQuestion"></div>
-                    <div class="quiz-options" id="quizOptions"></div>
-                    <div class="quiz-feedback" id="quizFeedback"></div>
-                    <button class="next-btn" id="quizNextBtn" style="display: none;" onclick="nextQuizQuestion()">Следующий вопрос →</button>
-                </div>
-                
-                <div id="quizResult" style="display: none; text-align: center; padding: 30px;">
-                    <div style="font-size: 4em; margin-bottom: 15px;">🎉</div>
-                    <div style="font-size: 1.8em; color: #2E7D32; font-weight: 900; margin-bottom: 10px;">Тест пройден!</div>
-                    <div style="font-size: 1.3em; color: #555; margin-bottom: 20px;">Твой результат: <span id="quizScore" style="color: #43A047; font-weight: 900;"></span></div>
-                    <button class="next-btn" onclick="restartQuiz()" style="float: none;">🔄 Пройти ещё раз</button>
-                </div>
-            </div>
-            
+        <!-- Слайд 3: Сравнение -->
+        <div class="slide slide-3">
+            <div class="slide-num">03 / 05</div>
+            <h2>Сравнение по фактам</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>Критерий</th>
+                    <th>Джойтека</th>
+                    <th>Учи.ру</th>
+                    <th>ЯКласс</th>
+                </tr>
+                <tr>
+                    <td><strong>Создание контента</strong></td>
+                    <td class="joy">✅ Свой за 3 мин.</td>
+                    <td class="bad">❌ Готовые карточки</td>
+                    <td class="bad">❌ Готовые задания</td>
+                </tr>
+                <tr>
+                    <td><strong>Геймификация</strong></td>
+                    <td class="joy">✅ 46+ квест-комнат</td>
+                    <td class="meh">⚠️ Поверхностные игры</td>
+                    <td class="bad">❌ Простые задания</td>
+                </tr>
+                <tr>
+                    <td><strong>Проведение уроков</strong></td>
+                    <td class="joy">✅ Встроенно, стабильно</td>
+                    <td class="bad">❌ Частые сбои</td>
+                    <td class="bad">❌ Только готовые видео</td>
+                </tr>
+                <tr>
+                    <td><strong>Любые предметы</strong></td>
+                    <td class="joy">✅ Да</td>
+                    <td class="meh">⚠️ Только школа</td>
+                    <td class="meh">⚠️ Только школа</td>
+                </tr>
+                <tr>
+                    <td><strong>Бесплатно</strong></td>
+                    <td class="joy">✅ 20 уроков + база</td>
+                    <td class="meh">⚠️ 20 заданий</td>
+                    <td class="meh">⚠️ Очень ограничено</td>
+                </tr>
+                <tr>
+                    <td><strong>Методическая база</strong></td>
+                    <td class="joy">✅ Научные публикации</td>
+                    <td class="bad">❌ Коммерция</td>
+                    <td class="bad">❌ Коммерция</td>
+                </tr>
+            </table>
         </div>
         
-        <div class="footer-info">
-            🌿 Береги своё здоровье — выбирай экологически безопасные продукты!
+        <!-- Слайд 4: 3 факта -->
+        <div class="slide slide-4">
+            <div class="slide-num">04 / 05</div>
+            <h2>3 факта в защиту</h2>
+            <div class="facts-grid">
+                <div class="fact-card">
+                    <div class="fact-number">01</div>
+                    <h3>Полный контроль</h3>
+                    <p>Адаптируй материал под свой класс и уровень учеников. Не подстраивайся под чужие задания.</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-number">02</div>
+                    <h3>Работает везде</h3>
+                    <p>Без установки программ, на любом устройстве, без сбоев и зависаний.</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-number">03</div>
+                    <h3>Доказано наукой</h3>
+                    <p>Основано Учителем года-2018. Эффективность подтверждена рецензируемыми журналами.</p>
+                </div>
+            </div>
         </div>
+        
+        <!-- Слайд 5: Итог -->
+        <div class="slide slide-5">
+            <div class="slide-num">05 / 05</div>
+            <div class="final-icon">🏆</div>
+            <h2>Итог</h2>
+            <p class="final-quote">
+                «Учи.ру и ЯКласс — для тех, кто ищет готовое.<br>
+                Джойтека — для тех, кто создаёт своё.»
+            </p>
+            <a href="https://joyteka.ru" class="final-cta">joyteka.ru</a>
+        </div>
+        
     </div>
-
+    
+    <!-- Навигация -->
+    <div class="nav">
+        <button class="active" onclick="goTo(0)"></button>
+        <button onclick="goTo(1)"></button>
+        <button onclick="goTo(2)"></button>
+        <button onclick="goTo(3)"></button>
+        <button onclick="goTo(4)"></button>
+    </div>
+    <div class="arrow-keys">← → или клик для навигации</div>
+    
     <script>
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            
-            document.getElementById('tab-' + tabId).classList.add('active');
-            event.target.classList.add('active');
+        let current = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.nav button');
+        
+        function goTo(n) {
+            slides[current].classList.remove('active');
+            dots[current].classList.remove('active');
+            current = (n + slides.length) % slides.length;
+            slides[current].classList.add('active');
+            dots[current].classList.add('active');
         }
         
-        function toggleCheck(element) {
-            element.classList.toggle('checked');
-        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') goTo(current + 1);
+            if (e.key === 'ArrowLeft') goTo(current - 1);
+        });
         
-        function toggleCard(element) {
-            element.style.transform = element.style.transform === 'scale(0.98)' ? 'scale(1)' : 'scale(0.98)';
-            setTimeout(() => {
-                element.style.transform = 'scale(1)';
-            }, 150);
-        }
-        
-        const quizQuestions = [
-            {
-                question: "Какой продукт экологически более безопасен?",
-                options: [
-                    { text: "Яблоко с садового участка бабушки", correct: true, feedback: "Верно! Свежие натуральные продукты — лучший выбор." },
-                    { text: "Яблочный десерт с 15 ингредиентами в составе", correct: false, feedback: "Нет. Чем больше компонентов, тем больше вероятность наличия добавок." },
-                    { text: "Яблочный леденец ярко-зелёного цвета", correct: false, feedback: "Нет. Яркая неестественная окраска — признак красителей." }
-                ]
-            },
-            {
-                question: "Что говорит о наличии большого количества консервантов?",
-                options: [
-                    { text: "Короткий срок годности", correct: false, feedback: "Нет. Короткий срок — признак свежести и натуральности." },
-                    { text: "Очень длинный срок годности", correct: true, feedback: "Верно! Долгий срок часто достигается за счёт консервантов." },
-                    { text: "Красивая упаковка", correct: false, feedback: "Нет. Упаковка не связана напрямую с консервантами." }
-                ]
-            },
-            {
-                question: "Какой продукт лучше ограничить в рационе?",
-                options: [
-                    { text: "Свежие овощи с местного рынка", correct: false, feedback: "Нет. Свежие овощи — отличный выбор!" },
-                    { text: "Натуральный йогурт без добавок", correct: false, feedback: "Нет. Натуральный йогурт — полезный продукт." },
-                    { text: "Гамбургер из фастфуда", correct: true, feedback: "Верно! Фастфуд содержит много вредных добавок и жиров." }
-                ]
-            },
-            {
-                question: "На что в первую очередь смотреть на этикетке?",
-                options: [
-                    { text: "Яркую картинку", correct: false, feedback: "Нет. Картинка — маркетинг, а не показатель качества." },
-                    { text: "Состав продукта", correct: true, feedback: "Верно! Состав — главное, что нужно читать." },
-                    { text: "Название бренда", correct: false, feedback: "Нет. Бренд не гарантирует экологичность." }
-                ]
-            },
-            {
-                question: "Что означает маркировка «органик» на продукте?",
-                options: [
-                    { text: "Продукт выращен без химикатов", correct: true, feedback: "Верно! Органик — значит без пестицидов и химических удобрений." },
-                    { text: "Продукт очень дорогой", correct: false, feedback: "Нет. Цена — не главный признак органики." },
-                    { text: "Продукт импортный", correct: false, feedback: "Нет. Органика может быть и местной." }
-                ]
-            }
-        ];
-        
-        let currentQuizQuestion = 0;
-        let quizScore = 0;
-        let quizAnswered = false;
-        
-        function initQuiz() {
-            currentQuizQuestion = 0;
-            quizScore = 0;
-            quizAnswered = false;
-            document.getElementById('quizContainer').style.display = 'block';
-            document.getElementById('quizResult').style.display = 'none';
-            showQuizQuestion();
-        }
-        
-        function showQuizQuestion() {
-            const q = quizQuestions[currentQuizQuestion];
-            document.getElementById('quizQuestion').textContent = `Вопрос ${currentQuizQuestion + 1} из ${quizQuestions.length}: ${q.question}`;
-            
-            const optionsContainer = document.getElementById('quizOptions');
-            optionsContainer.innerHTML = '';
-            
-            q.options.forEach((opt, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'quiz-option';
-                btn.textContent = opt.text;
-                btn.onclick = () => checkQuizAnswer(index, btn);
-                optionsContainer.appendChild(btn);
-            });
-            
-            document.getElementById('quizFeedback').className = 'quiz-feedback';
-            document.getElementById('quizFeedback').classList.remove('show');
-            document.getElementById('quizNextBtn').style.display = 'none';
-            quizAnswered = false;
-        }
-        
-        function checkQuizAnswer(index, btn) {
-            if (quizAnswered) return;
-            quizAnswered = true;
-            
-            const q = quizQuestions[currentQuizQuestion];
-            const isCorrect = q.options[index].correct;
-            const feedback = document.getElementById('quizFeedback');
-            
-            document.querySelectorAll('.quiz-option').forEach(b => {
-                b.style.pointerEvents = 'none';
-            });
-            
-            if (isCorrect) {
-                btn.classList.add('correct');
-                feedback.className = 'quiz-feedback correct-msg show';
-                feedback.textContent = '✅ ' + q.options[index].feedback;
-                quizScore++;
-            } else {
-                btn.classList.add('wrong');
-                feedback.className = 'quiz-feedback wrong-msg show';
-                feedback.textContent = '❌ ' + q.options[index].feedback;
-                
-                document.querySelectorAll('.quiz-option').forEach((b, i) => {
-                    if (q.options[i].correct) b.classList.add('correct');
-                });
-            }
-            
-            document.getElementById('quizNextBtn').style.display = 'inline-block';
-            if (currentQuizQuestion === quizQuestions.length - 1) {
-                document.getElementById('quizNextBtn').textContent = '🎉 Узнать результат!';
-            }
-        }
-        
-        function nextQuizQuestion() {
-            currentQuizQuestion++;
-            if (currentQuizQuestion >= quizQuestions.length) {
-                showQuizResult();
-            } else {
-                showQuizQuestion();
-            }
-        }
-        
-        function showQuizResult() {
-            document.getElementById('quizContainer').style.display = 'none';
-            document.getElementById('quizResult').style.display = 'block';
-            document.getElementById('quizScore').textContent = `${quizScore} из ${quizQuestions.length}`;
-        }
-        
-        function restartQuiz() {
-            initQuiz();
-        }
-        
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                if (this.textContent.includes('Проверь')) {
-                    setTimeout(initQuiz, 300);
-                }
-            });
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.nav') || e.target.closest('a')) return;
+            goTo(current + 1);
         });
     </script>
 </body>
